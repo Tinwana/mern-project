@@ -1,0 +1,32 @@
+.wrapper{
+    width: 200px;
+    padding: 8px ;
+    flex-basis: 300px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    height: auto;
+    margin-top: 24px;
+    .label{
+        color: rgb(56, 56, 61);
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+}
+.navbar-title{
+    color:rgb(56, 56, 61);
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.wrapper__title--text{
+    display: flex;
+    // align-items: center;
+    flex-direction: column;
+    gap: 12px;
+}
+.wrapper__title--price{
+    padding: 4px;
+    border-radius: 10px;
+    background-color:#ccc;
+    width: fit-content;
+}

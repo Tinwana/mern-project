@@ -1,5 +1,12 @@
 .wrapper {
     padding: 0 120px;
+    background-color: #efefef;
+    .wrapper__product {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 16px;
+    }
 }
 .product {
     height: 44px;
@@ -11,7 +18,7 @@
 .production {
     display: flex;
     flex-wrap: wrap;
-    justify-content:center;
+    justify-content: flex-start;
 }
 .view-more {
     border: 1px solid #006eff;
@@ -21,7 +28,7 @@
         background-color: #006eff;
         color: white !important;
     }
-    &:active{
+    &:active {
         background-color: rgba(48, 147, 255, 0.11);
         color: #006eff !important;
     }
