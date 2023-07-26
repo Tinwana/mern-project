@@ -9,9 +9,10 @@
     justify-content: flex-start;
 }
 .production {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content:center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill , minmax(240px , 1fr));
+    padding: 40px;
 }
 .view-more {
     border: 1px solid #006eff;
@@ -21,7 +22,7 @@
         background-color: #006eff;
         color: white !important;
     }
-    &:active{
+    &:active {
         background-color: rgba(48, 147, 255, 0.11);
         color: #006eff !important;
     }

@@ -41,6 +41,7 @@ const HomePage = () => {
               flexDirection: "column",
               alignItems:"center",
               marginTop: "16px",
+              width:"100%"
             }}
           >
             <div className={cx("production")}>
