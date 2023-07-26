@@ -138,11 +138,11 @@ class productController {
           status: "404",
           message: "out of product in stock!",
         });
-      } else {
+      }else {
         return res.status(200).json({
           status: "OK",
-          message: "select all products successfully",
-          data: allProduct,
+          message: "select products successfully",
+          data: req.productService,
         });
       }
     } catch (error) {
