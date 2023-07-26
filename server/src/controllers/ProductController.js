@@ -141,7 +141,7 @@ class productController {
       }else {
         return res.status(200).json({
           status: "OK",
-          message: "select products successfully",
+          message: `select ${req.productService.stateGetProduct} products successfully`,
           data: req.productService,
         });
       }
