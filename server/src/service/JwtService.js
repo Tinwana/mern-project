@@ -5,7 +5,7 @@ const generalAccessToken = (payload) => {
       payload,
     },
     "access_token",
-    { expiresIn: "100s" }
+    { expiresIn: "1d" }
   );
   return accessToken;
 };
@@ -24,7 +24,6 @@ const refreshTokenService =  (token) => {
   return new Promise( (resolve, reject) => {
     try {
       jwt.verify(token, "refresh_token", (error, user) => {
-        console.log(user);
         if (error) {
           resolve({
             status: "error",

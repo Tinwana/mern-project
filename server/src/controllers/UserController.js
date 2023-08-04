@@ -9,28 +9,28 @@ const {
 class userController {
   async createUser(req, res, next) {
     try {
-      const { name, email, password, confirmPassword, phone } = req.body;
+      const { name, email, password, passwordConfirm, phone } = req.body;
       const regEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
       const isEmail = regEmail.test(email);
       const checkEmail = await User.findOne({ email: email });
       const hash = bcrypt.hashSync(password, 10);
-      if (!name || !email || !password || !confirmPassword || !phone) {
-        return res.status(403).json({
+      if ( !email || !password || !passwordConfirm) {
+        return res.status(200).json({
           status: "error",
           message: "the input is required",
         });
       } else if (!isEmail) {
-        return res.status(403).json({
+        return res.status(200).json({
           status: "error",
           message: "It is not an email!",
         });
-      } else if (password !== confirmPassword) {
-        return res.status(403).json({
+      } else if (password !== passwordConfirm) {
+        return res.status(200).json({
           status: "error",
           message: "Password confirm is not correct",
         });
       } else if (checkEmail !== null) {
-        return res.status(403).json({
+        return res.status(200).json({
           status: "error",
           message: "Email is already in used",
         });
@@ -50,7 +50,7 @@ class userController {
         }
       }
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      return res.status(200).json({ message: error.message });
     }
   }
   async loginUser(req, res, next) {
@@ -58,12 +58,12 @@ class userController {
       const { email, password } = req.body;
       const checkUser = await User.findOne({ email: email });
       if (!email || !password) {
-        return res.status(403).json({
+        return res.status(200).json({
           status: "error",
           message: "the input is required",
         });
       } else if (checkUser === null) {
-        return res.status(403).json({
+        return res.status(200).json({
           status: "error",
           message: "User is not defined!",
         });
@@ -73,7 +73,7 @@ class userController {
           checkUser.password
         );
         if (!comparePassword) {
-          return res.status(403).json({
+          return res.status(200).json({
             status: "error",
             message: "Password is incorrect!",
           });
@@ -86,16 +86,20 @@ class userController {
             id: checkUser.id,
             isAdmin: checkUser.isAdmin,
           });
-          return res.status(200).json({
+          res.cookie("refresh_token", refresh_token,{
+            httpOnly:true,
+            secure: false,
+            samesite : "strict"
+          });
+          res.status(200).json({
             status: "OK",
             message: "success",
             access_token,
-            refresh_token,
           });
         }
       }
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      return res.status(200).json({ message: error.message });
     }
   }
   async updateUser(req, res, next) {
@@ -104,7 +108,7 @@ class userController {
       const { name, phone, password, isAdmin } = req.body;
       const hash = bcrypt.hashSync(password, 10);
       if (!userId) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "error",
           message: "userId param is required!",
         });
@@ -128,7 +132,7 @@ class userController {
         }
       }
     } catch (error) {
-      return res.status(404).json({
+      return res.status(200).json({
         status: "catch error",
         message: error.message,
       });
@@ -140,12 +144,12 @@ class userController {
       const checkUser = await User.findOne({ _id: userId });
 
       if (!userId) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "error",
           message: "user di param is required!",
         });
       } else if (checkUser === null) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "error",
           message: "User not found!",
         });
@@ -159,7 +163,7 @@ class userController {
         }
       }
     } catch (error) {
-      return res.status(404).json({
+      return res.status(200).json({
         status: "catch error",
         message: error.message,
       });
@@ -185,14 +189,13 @@ class userController {
     try {
       const userId = req.params.id;
       const user = await User.findOne({ _id: userId });
-
       if (!userId) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "error",
           message: "user di param is required!",
         });
       } else if (user === null) {
-        return res.status(404).json({
+        return res.status(200).json({
           status: "error",
           message: "User not found!",
         });
@@ -204,7 +207,7 @@ class userController {
           });
       }
     } catch (error) {
-      return res.status(404).json({
+      return res.status(200).json({
         status: "catch error",
         message: error.message,
       });
@@ -212,7 +215,7 @@ class userController {
   }
   async refreshToken (req, res) {
     try {
-      const token = req.headers.token.split(' ')[1];
+      const token = req.cookies.refresh_token;
       if(!token) {
         return res.status(200).json({
           status: "OK",
@@ -224,7 +227,17 @@ class userController {
         return res.status(200).json(response)
       }
     } catch (error) {
-      return res.status(404).json({
+      return res.status(200).json({
+        status: "catch error",
+        message: error.message,
+      });
+    }
+  }
+  logOutUser(req, res) {
+    try {
+      
+    } catch (error) {
+      return res.status(200).json({
         status: "catch error",
         message: error.message,
       });

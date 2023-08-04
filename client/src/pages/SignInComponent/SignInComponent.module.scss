@@ -18,13 +18,25 @@
 .signIn {
     padding: 24px;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    width: 50%;
+    flex: 1;
+}
+.validate-text{
+    font-size: .8rem;
+    color: red;
+    line-height: 0.1;
 }
 .signIn-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
+
 
 .signIn-form {
     display: flex;
