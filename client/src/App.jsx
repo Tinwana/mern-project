@@ -5,15 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import jwtDecoded from "jwt-decode";
 import { publicRoutes } from "./routes";
 import DefaultComponents from "./components/DefaultComponents/DefaultComponents";
-import { BASE_URL } from "../public/env";
 import isJsonString from "./utils/IsJsonString";
 import { axiosJwt, getDetailUser, refreshToken } from "./Service/UserService";
 import { updateUser } from "./redux/slides/userSlide";
 import { useDispatch } from "react-redux";
-
 function App() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     const { decoded, storageData } = handleDecoded();
     if (decoded?.payload?.id) {

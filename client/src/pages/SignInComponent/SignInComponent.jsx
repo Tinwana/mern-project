@@ -4,7 +4,6 @@ import loginImg from "../../assets/image/logo-login.png";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import styles from "./SignInComponent.module.scss";
 import { Button, Input } from "antd";
-import { BASE_URL } from "../../../public/env";
 import { loginUser } from "../../Service/UserService";
 import { useMutation } from "@tanstack/react-query";
 import jwtDecoded from "jwt-decode";
@@ -31,7 +30,7 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
     if (emailValidate !== "") return;
     const email = emailRef.current?.input.value;
     const password = passwordRef.current?.input.value;
-    const apiUrl = `${BASE_URL}/user/sign-in`;
+    const apiUrl = `user/sign-in`;
     loginMutations.mutate({
       email,
       password,
@@ -52,8 +51,8 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
     }
   }, [loginMutations]);
   const handleGetDetailUser = async (id, token) => {
-    const res = await getDetailUser(id,token)
-    dispatch(updateUser({...res?.data,access_token:token}))
+    const res = await getDetailUser(id, token);
+    dispatch(updateUser({ ...res?.data, access_token: token }));
   };
   return (
     <div

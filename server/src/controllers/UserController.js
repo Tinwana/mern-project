@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const {
   generalAccessToken,
   generalRefreshToken,
-  refreshTokenService
+  refreshTokenService,
 } = require("../service/JwtService");
 
 class userController {
@@ -14,7 +14,7 @@ class userController {
       const isEmail = regEmail.test(email);
       const checkEmail = await User.findOne({ email: email });
       const hash = bcrypt.hashSync(password, 10);
-      if ( !email || !password || !passwordConfirm) {
+      if (!email || !password || !passwordConfirm) {
         return res.status(200).json({
           status: "error",
           message: "the input is required",
@@ -86,15 +86,16 @@ class userController {
             id: checkUser.id,
             isAdmin: checkUser.isAdmin,
           });
-          res.cookie("refresh_token", refresh_token,{
-            httpOnly:true,
+          res.cookie("refresh_token", refresh_token, {
+            httpOnly: true,
             secure: false,
-            samesite : "strict"
+            samesite: "strict",
           });
           res.status(200).json({
             status: "OK",
             message: "success",
             access_token,
+            refresh_token,
           });
         }
       }
@@ -200,11 +201,11 @@ class userController {
           message: "User not found!",
         });
       } else {
-          return res.status(200).json({
-            status: "OK",
-            message: "User has found!",
-            data: user,
-          });
+        return res.status(200).json({
+          status: "OK",
+          message: "User has found!",
+          data: user,
+        });
       }
     } catch (error) {
       return res.status(200).json({
@@ -213,18 +214,17 @@ class userController {
       });
     }
   }
-  async refreshToken (req, res) {
+  async refreshToken(req, res) {
     try {
       const token = req.cookies.refresh_token;
-      if(!token) {
+      if (!token) {
         return res.status(200).json({
           status: "OK",
           message: "Token is required!",
         });
-      }
-      else {
-        const response = await refreshTokenService(token)
-        return res.status(200).json(response)
+      } else {
+        const response = await refreshTokenService(token);
+        return res.status(200).json(response);
       }
     } catch (error) {
       return res.status(200).json({
@@ -235,11 +235,14 @@ class userController {
   }
   logOutUser(req, res) {
     try {
-      
-    } catch (error) {
+      res.clearCookie("refresh_token");
       return res.status(200).json({
-        status: "catch error",
-        message: error.message,
+        status: "OK",
+        message: "Logout successfully",
+      });
+    } catch (e) {
+      return res.status(404).json({
+        message: e,
       });
     }
   }

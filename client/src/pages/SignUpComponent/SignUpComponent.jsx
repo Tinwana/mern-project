@@ -6,7 +6,6 @@ import axios from "axios";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
-import { BASE_URL } from "../../../public/env";
 import { signUpUser } from "../../Service/UserService";
 import { useMutation } from "@tanstack/react-query";
 import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
@@ -23,9 +22,9 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const signupMutation = useMutation({
-    mutationFn:data => signUpUser(data)
-  })
-  const { data , isLoading } = signupMutation
+    mutationFn: (data) => signUpUser(data),
+  });
+  const { data, isLoading } = signupMutation;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -37,7 +36,7 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
     const email = emailRef.current?.input.value;
     const password = passwordRef.current?.input.value;
     const passwordConfirm = passwordConfirmRef.current?.input.value;
-    const apiUrl = `${BASE_URL}/user/sign-up`;
+    const apiUrl = `user/sign-up`;
 
     signupMutation.mutate({
       email,
