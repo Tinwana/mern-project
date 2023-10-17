@@ -5,12 +5,13 @@ import { CloseCircleTwoTone } from "@ant-design/icons";
 import styles from "./SignInComponent.module.scss";
 import { Button, Input } from "antd";
 import { loginUser } from "../../Service/UserService";
-import { useMutation } from "@tanstack/react-query";
+import { useMutationHook } from "../../hooks/useMutationHook";
 import jwtDecoded from "jwt-decode";
 import { useDispatch } from "react-redux";
 import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 import { getDetailUser } from "../../Service/UserService";
 import { updateUser } from "../../redux/slides/userSlide";
+import * as message from "../../components/Message/message";
 
 const cx = classNames.bind(styles);
 
@@ -18,16 +19,14 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
   const [emailValidate, setEmailValidate] = useState("");
+  const [passwordValidate, setPasswordValidate] = useState("");
   const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const loginMutations = useMutation({
-    mutationFn: (data) => loginUser(data),
-  });
+  const loginMutations = useMutationHook((data) => loginUser(data));
   const { data, isLoading } = loginMutations;
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (emailValidate !== "") return;
     const email = emailRef.current?.input.value;
     const password = passwordRef.current?.input.value;
     const apiUrl = `user/sign-in`;
@@ -38,16 +37,23 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
     });
   };
   useEffect(() => {
-    if (loginMutations?.data?.status === "OK") {
+    if (data?.status === "OK") {
       setShowLogin(false);
       setShowSignUp(false);
-      localStorage.setItem("access_token", data?.access_token);
+      message.success();
       if (data?.access_token) {
+        localStorage.setItem("access_token", data?.access_token);
         const decoded = jwtDecoded(data?.access_token);
         if (!!decoded?.payload.id) {
-          handleGetDetailUser(decoded.payload.id, data?.access_token);
+          handleGetDetailUser(decoded?.payload?.id, data?.access_token);
         }
       }
+    } else if (data?.message === "Password is incorrect!") {
+      setPasswordValidate(data?.message);
+      setEmailValidate("");
+    } else if (data?.message === "User is not defined!") {
+      setEmailValidate(data?.message);
+      setPasswordValidate("");
     }
   }, [loginMutations]);
   const handleGetDetailUser = async (id, token) => {
@@ -129,6 +135,7 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
                 {passwordVisible ? "Hide" : "Show"}
               </Button>
             </div>
+            <span className={cx("validate-text")}>{passwordValidate}</span>
             <Button
               type="primary"
               danger

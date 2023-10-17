@@ -9,6 +9,7 @@ import { Button, Input } from "antd";
 import { signUpUser } from "../../Service/UserService";
 import { useMutation } from "@tanstack/react-query";
 import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
+import * as message from "../../components/Message/message";
 
 const cx = classNames.bind(styles);
 
@@ -24,7 +25,7 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
   const signupMutation = useMutation({
     mutationFn: (data) => signUpUser(data),
   });
-  const { data, isLoading } = signupMutation;
+  const { data, isLoading, isError, isSuccess } = signupMutation;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -46,10 +47,12 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
     });
   };
   useEffect(() => {
-    if (signupMutation?.data?.status === "OK") {
+    if (data?.status === "OK") {
       setShowLogin(false);
       setShowSignUp(false);
     }
+    if (data?.status === "error") message.error();
+    else if (isSuccess) message.success();
   }, [signupMutation]);
   return (
     <div
@@ -117,10 +120,8 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
                 onBlur={(e) => {
                   if (e.target.value === "" || e.target.value == undefined) {
                     setPasswordValidate("This is required!");
-                  } else if (e.target.value.length < 8)
-                    setPasswordValidate(
-                      "Min length of password must be eight!"
-                    );
+                  } else if (e.target.value.length < 6)
+                    setPasswordValidate("Min length of password must be six!");
                   else {
                     setPasswordValidate("");
                   }

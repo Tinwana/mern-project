@@ -6,11 +6,17 @@ import jwtDecoded from "jwt-decode";
 import { publicRoutes } from "./routes";
 import DefaultComponents from "./components/DefaultComponents/DefaultComponents";
 import isJsonString from "./utils/IsJsonString";
-import { axiosJwt, getDetailUser, refreshToken } from "./Service/UserService";
+import {
+  axiosJwt,
+  getDetailUser,
+  logOutUser,
+  refreshToken,
+} from "./Service/UserService";
 import { updateUser } from "./redux/slides/userSlide";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     const { decoded, storageData } = handleDecoded();
     if (decoded?.payload?.id) {
@@ -27,21 +33,26 @@ function App() {
     return { decoded, storageData };
   };
 
-  // axiosJwt.interceptors.request.use( async (config)=> {
-  //   const { decoded, storageData } = handleDecoded();
-  //   const currentTime = new Date()
-  //   if(decoded?.exp < currentTime.getTime()/1000){
-  //     const data = await refreshToken()
-  //     if(data){
-  //       config.headers['token'] = `bearer ${data?.access_token}`
-  //     }
-  //   }
-  //   return config;
-  // }, function (error) {
-  //   return Promise.reject(error);
-  // });
+  axiosJwt.interceptors.request.use(
+    async (config) => {
+      const { decoded, storageData } = handleDecoded();
+      const currentTime = new Date();
+      if (decoded?.exp < currentTime.getTime() / 1000) {
+        const data = await refreshToken();
+        if (data) {
+          config.headers["token"] = `bearer ${data?.access_token}`;
+        }
+      }
+      return config;
+    },
+    function (error) {
+      return Promise.reject(error);
+    }
+  );
 
   const handleGetDetailUser = async (id, token) => {
+    // const { message } = await logOutUser(token);
+    // if (message == "logout successfully!") return;
     const res = await getDetailUser(id, token);
     if (res.status === "error") return;
     dispatch(updateUser({ ...res?.data, access_token: token }));

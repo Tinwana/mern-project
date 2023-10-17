@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import classnames from "classnames/bind";
-import { Badge, Col } from "antd";
+import { Badge, Button, Col, Popover } from "antd";
 import {
   WrapperHeader,
   WrapperTextHeader,
@@ -18,13 +18,39 @@ import {
 import styles from "./header.module.scss";
 import SignInComponent from "../../pages/SignInComponent/SignInComponent";
 import SignUpComponent from "../../pages/SignUpComponent/SignUpComponent";
-import { useSelector } from "react-redux";
+import { logOutUser } from "../../Service/UserService";
+import { useSelector, useDispatch } from "react-redux";
+import { resetUser } from "../../redux/slides/userSlide";
 const cx = classnames.bind(styles);
+// const text = <span>Title</span>;
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const [showArrow, setShowArrow] = useState(true);
+  const [arrowAtCenter, setArrowAtCenter] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
+  const mergedArrow = useMemo(() => {
+    if (arrowAtCenter)
+      return {
+        pointAtCenter: true,
+      };
+    return showArrow;
+  }, [showArrow, arrowAtCenter]);
   const user = useSelector((state) => state.user);
+  const handleLogout = async (e) => {
+    await logOutUser(user?.access_token);
+    dispatch(resetUser());
+  };
+  const content = (
+    <div className={cx("content")}>
+      <button className={cx("content__hover")}>Information</button>
+      <button onClick={handleLogout} className={cx("content__hover")}>
+        Log Out
+      </button>
+    </div>
+  );
+
   return (
     <>
       <WrapperHeader>
@@ -44,7 +70,7 @@ const Header = () => {
           style={{ display: "flex", gap: "20px", alignItems: "center" }}
         >
           <WrapperAccountHeader>
-            {user?.name ? (
+            {user.id !== "" ? (
               <>
                 {user.avatar ? (
                   <img
@@ -60,7 +86,26 @@ const Header = () => {
                 <div>
                   <span style={{ lineHeight: "1.8", cursor: "pointer" }}>
                     {" "}
-                    <span>{user.email}</span>
+                    <Popover
+                      placement="bottom"
+                      // title={text}
+                      content={content}
+                      arrow={mergedArrow}
+                      trigger="click"
+                    >
+                      <Button
+                        style={{
+                          color: "white",
+                          backgroundColor: "transparent",
+                        }}
+                        type="text"
+                        block
+                      >
+                        <span className={cx("username")}>
+                          {user.name ? user.name : user.email}
+                        </span>
+                      </Button>
+                    </Popover>
                   </span>
                 </div>
               </>

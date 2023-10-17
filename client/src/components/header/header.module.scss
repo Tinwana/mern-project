@@ -1,0 +1,21 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    &__hover {
+        padding: 0.5rem 2rem;
+        font-weight: 600;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    &__hover:hover {
+        background-color: rgb(227, 227, 227);
+        width: 100%;
+    }
+}
+.username {
+    font-weight: 700;
+}

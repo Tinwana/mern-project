@@ -5,7 +5,7 @@ const generalAccessToken = (payload) => {
       payload,
     },
     "access_token",
-    { expiresIn: "1d" }
+    { expiresIn: "3600s" }
   );
   return accessToken;
 };
@@ -16,12 +16,12 @@ const generalRefreshToken = (payload) => {
       payload,
     },
     "refresh_token",
-    { expiresIn: "7d" }
+    { expiresIn: `${60 * 60 * 3}s` }
   );
   return refreshToken;
 };
-const refreshTokenService =  (token) => {
-  return new Promise( (resolve, reject) => {
+const refreshTokenService = (token) => {
+  return new Promise((resolve, reject) => {
     try {
       jwt.verify(token, "refresh_token", (error, user) => {
         if (error) {
@@ -31,15 +31,15 @@ const refreshTokenService =  (token) => {
           });
         } else {
           const { payload } = user;
-          const accessToken =  generalAccessToken({
+          const accessToken = generalAccessToken({
             id: payload?.id,
             isAdmin: payload?.isAdmin,
           });
           resolve({
-            status:"OK",
-            message:"success",
-            access_token: accessToken
-          })
+            status: "OK",
+            message: "success",
+            access_token: accessToken,
+          });
         }
       });
     } catch (error) {

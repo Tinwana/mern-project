@@ -16,9 +16,10 @@
     justify-content: flex-start;
 }
 .production {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    padding: 40px;
 }
 .view-more {
     border: 1px solid #006eff;
