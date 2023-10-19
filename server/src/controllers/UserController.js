@@ -87,21 +87,21 @@ class userController {
             id: checkUser.id,
             isAdmin: checkUser.isAdmin,
           });
-          let oldAccessToken = checkUser.tokens || [];
-          if (oldAccessToken.length) {
-            oldAccessToken = oldAccessToken.filter((t) => {
-              const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
-              if (timeDiff < 3600) {
-                return t;
-              }
-            });
-          }
-          const updateUserToken = await User.findByIdAndUpdate(checkUser._id, {
-            tokens: [
-              ...oldAccessToken,
-              { token: access_token, signedAt: Date.now().toString() },
-            ],
-          });
+          // let oldAccessToken = checkUser.tokens || [];
+          // if (oldAccessToken.length) {
+          //   oldAccessToken = oldAccessToken.filter((t) => {
+          //     const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
+          //     if (timeDiff < 3600) {
+          //       return t;
+          //     }
+          //   });
+          // }
+          // const updateUserToken = await User.findByIdAndUpdate(checkUser._id, {
+          //   tokens: [
+          //     ...oldAccessToken,
+          //     { token: access_token, signedAt: Date.now().toString() },
+          //   ],
+          // });
           res.cookie("refresh_token", refresh_token, {
             httpOnly: true,
             secure: false,
@@ -205,6 +205,7 @@ class userController {
 
   async getDetailUser(req, res, next) {
     try {
+      const token = req.cookies.refresh_token;
       const userId = req.params.id;
       const user = await User.findOne({ _id: userId });
       if (!userId) {
@@ -221,7 +222,10 @@ class userController {
         return res.status(200).json({
           status: "OK",
           message: "User has found!",
-          data: user,
+          data: {
+            user,
+            refresh_token: token,
+          },
         });
       }
     } catch (error) {
@@ -251,29 +255,29 @@ class userController {
     }
   }
   logOutUser(req, res) {
-    if (req.headers && req.headers.token) {
-      const token = req.headers.token.split(" ")[1];
-      if (!token) {
-        return res.status(401).json({
-          status: "error",
-          message: "authentication fail!",
-        });
-      }
-      const tokens = req.user.tokens;
-      const newTokens = tokens.filter((t) => t?.token !== token);
-      try {
-        User.findByIdAndUpdate(req.user._id, { tokens: newTokens });
-        res.clearCookie("refresh_token");
-        return res.status(200).json({
-          status: "OK",
-          message: "logout successfully!",
-        });
-      } catch (e) {
-        return res.status(404).json({
-          message: e,
-        });
-      }
+    // if (req.headers && req.headers.token) {
+    //   const token = req.headers.token.split(" ")[1];
+    //   if (!token) {
+    //     return res.status(401).json({
+    //       status: "error",
+    //       message: "authentication fail!",
+    //     });
+    //   }
+    //   const tokens = req.user.tokens;
+    //   const newTokens = tokens.filter((t) => t?.token !== token);
+    try {
+      // User.findByIdAndUpdate(req.user._id, { tokens: newTokens });
+      res.clearCookie("refresh_token");
+      return res.status(200).json({
+        status: "OK",
+        message: "logout successfully!",
+      });
+    } catch (e) {
+      return res.status(404).json({
+        message: e,
+      });
     }
   }
 }
+// }
 module.exports = new userController();

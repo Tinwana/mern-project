@@ -58,7 +58,13 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
   }, [loginMutations]);
   const handleGetDetailUser = async (id, token) => {
     const res = await getDetailUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token }));
+    dispatch(
+      updateUser({
+        ...res?.data.user,
+        access_token: token,
+        refreshToken: res?.data.refresh_token,
+      })
+    );
   };
   return (
     <div

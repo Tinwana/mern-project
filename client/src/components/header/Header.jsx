@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import classnames from "classnames/bind";
+import { Link } from "react-router-dom";
 import { Badge, Button, Col, Popover } from "antd";
 import {
   WrapperHeader,
@@ -39,12 +40,16 @@ const Header = () => {
   }, [showArrow, arrowAtCenter]);
   const user = useSelector((state) => state.user);
   const handleLogout = async (e) => {
-    await logOutUser(user?.access_token);
+    await logOutUser();
     dispatch(resetUser());
   };
   const content = (
     <div className={cx("content")}>
-      <button className={cx("content__hover")}>Information</button>
+      <button className={cx("content__hover")}>
+        <Link style={{ color: "#000" }} to="/profile">
+          Information
+        </Link>
+      </button>
       <button onClick={handleLogout} className={cx("content__hover")}>
         Log Out
       </button>
@@ -70,7 +75,7 @@ const Header = () => {
           style={{ display: "flex", gap: "20px", alignItems: "center" }}
         >
           <WrapperAccountHeader>
-            {user.id !== "" ? (
+            {user.refreshToken !== "" ? (
               <>
                 {user.avatar ? (
                   <img
@@ -92,6 +97,9 @@ const Header = () => {
                       content={content}
                       arrow={mergedArrow}
                       trigger="click"
+                      mouseLeaveDelay={1000}
+                      motion={React}
+                      destroyTooltipOnHide
                     >
                       <Button
                         style={{

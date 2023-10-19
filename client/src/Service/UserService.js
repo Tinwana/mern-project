@@ -98,14 +98,11 @@ const refreshToken = async () => {
     }
   }
 };
-const logOutUser = async (accessToken) => {
+const logOutUser = async () => {
   try {
     const response = await axiosBase({
       method: "POST",
       url: `user/log-out`,
-      headers: {
-        token: `bearer ${accessToken}`,
-      },
     });
     return response.data;
   } catch (error) {

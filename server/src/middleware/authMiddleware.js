@@ -12,9 +12,9 @@ const authMiddleware = (req, res, next) => {
         });
       } else {
         const { payload } = user;
-        const currentUser = await User.findById(payload?.id);
+        // const currentUser = await User.findById(payload?.id);
         if (payload?.isAdmin || payload?.id === userId) {
-          req.user = currentUser;
+          // req.user = currentUser;
           next();
         } else {
           return res.status(200).json({

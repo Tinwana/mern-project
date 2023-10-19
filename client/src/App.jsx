@@ -55,7 +55,13 @@ function App() {
     // if (message == "logout successfully!") return;
     const res = await getDetailUser(id, token);
     if (res.status === "error") return;
-    dispatch(updateUser({ ...res?.data, access_token: token }));
+    dispatch(
+      updateUser({
+        ...res?.data.user,
+        access_token: token,
+        refreshToken: res?.data.refresh_token,
+      })
+    );
   };
 
   return (
