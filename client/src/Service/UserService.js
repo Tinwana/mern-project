@@ -115,4 +115,21 @@ const logOutUser = async () => {
     }
   }
 };
+const updateUser = async () => {
+  try {
+    const response = await axiosBase({
+      method: "PUT",
+      url: `user/update`,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      // Request was canceled due to timeout
+      console.log("Request was canceled due to timeout");
+    } else {
+      // Request failed for other reasons (e.g., network error, 4xx/5xx response, etc.)
+      console.error("Request failed:", error);
+    }
+  }
+};
 export { loginUser, signUpUser, getDetailUser, refreshToken, logOutUser };
