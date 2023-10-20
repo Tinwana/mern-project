@@ -1,13 +1,13 @@
 import axios from "axios";
 export const axiosJwt = axios.create({
-  baseURL: `/api/`,
+  baseURL: "/api/",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 export const axiosBase = axios.create({
-  baseURL: `/api/`,
+  baseURL: "/api/",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
@@ -115,7 +115,6 @@ const logOutUser = async () => {
     }
   }
 };
-<<<<<<< HEAD
 const updateUser = async (data) => {
   const { name, email, phone, password, address, avatar, apiUrl } = data;
   try {
@@ -130,13 +129,6 @@ const updateUser = async (data) => {
         address,
         avatar,
       },
-=======
-const updateUser = async () => {
-  try {
-    const response = await axiosBase({
-      method: "PUT",
-      url: `user/update`,
->>>>>>> 967f14139e8e11f629687074e52b1ea4f6dfe6d1
     });
     return response.data;
   } catch (error) {
@@ -149,7 +141,6 @@ const updateUser = async () => {
     }
   }
 };
-<<<<<<< HEAD
 export {
   loginUser,
   signUpUser,
@@ -158,6 +149,3 @@ export {
   logOutUser,
   updateUser,
 };
-=======
-export { loginUser, signUpUser, getDetailUser, refreshToken, logOutUser };
->>>>>>> 967f14139e8e11f629687074e52b1ea4f6dfe6d1
