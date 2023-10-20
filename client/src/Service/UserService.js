@@ -115,4 +115,37 @@ const logOutUser = async () => {
     }
   }
 };
-export { loginUser, signUpUser, getDetailUser, refreshToken, logOutUser };
+const updateUser = async (data) => {
+  const { name, email, phone, password, address, avatar, apiUrl } = data;
+  try {
+    const response = await axiosBase({
+      method: "PUT",
+      url: apiUrl,
+      data: {
+        name,
+        email,
+        phone,
+        password,
+        address,
+        avatar,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      // Request was canceled due to timeout
+      console.log("Request was canceled due to timeout");
+    } else {
+      // Request failed for other reasons (e.g., network error, 4xx/5xx response, etc.)
+      console.error("Request failed:", error);
+    }
+  }
+};
+export {
+  loginUser,
+  signUpUser,
+  getDetailUser,
+  refreshToken,
+  logOutUser,
+  updateUser,
+};

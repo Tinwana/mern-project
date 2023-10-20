@@ -123,8 +123,8 @@ class userController {
   async updateUser(req, res, next) {
     try {
       const userId = req.params.id;
-      const { name, phone, password, isAdmin } = req.body;
-      const hash = bcrypt.hashSync(password, 10);
+      const { name, phone, address, avatar, isAdmin } = req.body;
+      // const hash = bcrypt.hashSync(password, 10);
       if (!userId) {
         return res.status(200).json({
           status: "error",
@@ -133,7 +133,7 @@ class userController {
       } else {
         const userUpdate = await User.findOneAndUpdate(
           { _id: userId },
-          { name, phone, isAdmin, password: hash },
+          { name, phone, isAdmin, address, avatar },
           { new: true }
         );
         if (userUpdate) {

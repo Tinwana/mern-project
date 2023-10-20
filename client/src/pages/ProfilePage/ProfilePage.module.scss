@@ -1,0 +1,89 @@
+.profile {
+    padding: 30px 60px 0;
+    display: flex;
+    gap: 40px;
+    &__option {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 240px;
+        &--avatar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            background-color: #c8d1d6;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        &--name {
+            .name {
+                color: #000;
+                font-weight: 700;
+            }
+        }
+        &--detail {
+            width: 100%;
+            background-color: #dfe4e7;
+            .profile__logout {
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.profile__detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    border: 2px solid #e8e8e8;
+    padding-top: 30px;
+    flex: 1;
+    .detail__text {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 30px 30px 30px;
+        h1 {
+            font-size: 1.8rem;
+        }
+    }
+    .detail__info {
+        display: flex;
+        border: 1px solid #e8e8e8;
+        .text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        &--text {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 2rem;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 30px;
+            padding-right: 52px;
+            border-right: 1px solid #e8e8e8;
+        }
+    }
+}
+.profile__edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    padding-bottom: 60px;
+}
+.detail__info {
+    &--image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        padding: 30px;
+    }
+}
