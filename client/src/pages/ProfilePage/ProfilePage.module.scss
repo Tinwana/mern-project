@@ -38,6 +38,7 @@
     justify-content: space-between;
     background-color: #f9f9f9;
     border: 2px solid #e8e8e8;
+<<<<<<< HEAD
     padding-top: 30px;
     flex: 1;
     .detail__text {
@@ -47,6 +48,13 @@
         h1 {
             font-size: 1.8rem;
         }
+=======
+    flex: 1;
+    padding-top: 30px;
+    .detail__text {
+        font-size: 1.8rem;
+        padding: 0 30px 30px 30px;
+>>>>>>> 967f14139e8e11f629687074e52b1ea4f6dfe6d1
     }
     .detail__info {
         display: flex;
@@ -69,6 +77,11 @@
             border-right: 1px solid #e8e8e8;
         }
     }
+<<<<<<< HEAD
+=======
+    &--image {
+    }
+>>>>>>> 967f14139e8e11f629687074e52b1ea4f6dfe6d1
 }
 .profile__edit {
     display: flex;
@@ -77,6 +90,7 @@
     padding: 30px;
     padding-bottom: 60px;
 }
+<<<<<<< HEAD
 .detail__info {
     &--image {
         display: flex;
@@ -87,3 +101,5 @@
         padding: 30px;
     }
 }
+=======
+>>>>>>> 967f14139e8e11f629687074e52b1ea4f6dfe6d1
