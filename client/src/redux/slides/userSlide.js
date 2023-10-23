@@ -27,7 +27,7 @@ export const userSlide = createSlice({
         phone = "",
         avatar = "",
         _id = "",
-        isAdmin,
+        isAdmin = false,
         city = "",
         refreshToken = "",
         // isLoggedIn,

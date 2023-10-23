@@ -8,9 +8,21 @@ import logo from "../../assets/image/logo.png";
 
 const cx = classNames.bind(styles);
 
-const CardComponent = ({}) => {
+const CardComponent = ({
+  onClick,
+  name,
+  image,
+  type,
+  price,
+  discount,
+  sold,
+  countInStock,
+  ratting,
+  description,
+}) => {
+  const formattedNumber = price.toLocaleString();
   return (
-    <div className={cx("wrapper")}>
+    <div onClick={onClick} className={cx("wrapper")}>
       <Card
         className={cx("card")}
         hoverable
@@ -22,40 +34,30 @@ const CardComponent = ({}) => {
             <img
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
               alt="example"
-              src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              src={image.primary}
             />
           </div>
         }
       >
         <div className={cx("card-title")}>
-          <p className={cx("product-name")}>
-            lipayobjects.com/rmsportal/QBnOOoLaAfKPirclipayobjects
-          </p>
+          <p className={cx("product-name")}>{name}</p>
           <div className={cx("ratting")}>
-            <span>5</span>
+            <span>{ratting}</span>
             <StarFilled style={{ color: "yellow" }} />
             <Divider style={{ borderColor: "#333" }} type="vertical" />
-            <span className={cx("sold")}>Sold 3000</span>
+            <span className={cx("sold")}>Sold {sold}</span>
           </div>
           <div className={cx("price")}>
-            <span className={cx("price__sale")}>15.9000.000 d</span>
-            <span className={cx("price__reduce")}> -12%</span>
-          </div>
-          <div className={cx("description")}>
-            <p>lipayobjects.com/rmsportal/QBnOOoLaAfKPirc</p>
+            <span className={cx("price__sale")}>{formattedNumber} d</span>
+            <span className={cx("price__reduce")}>{discount} %</span>
           </div>
           <div className={cx("option")}>
+            <Button danger>Buy</Button>
             <Button
               className={cx("option__btn")}
               style={{ borderColor: "blue", color: "blue" }}
             >
-              Default
-            </Button>
-            <Button
-              className={cx("option__btn")}
-              style={{ borderColor: "blue", color: "blue" }}
-            >
-              Default
+              Detail
             </Button>
           </div>
         </div>

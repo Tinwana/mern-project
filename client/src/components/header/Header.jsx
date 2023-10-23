@@ -45,11 +45,9 @@ const Header = () => {
   };
   const content = (
     <div className={cx("content")}>
-      <button className={cx("content__hover")}>
-        <Link style={{ color: "#000" }} to="/profile">
-          Profile
-        </Link>
-      </button>
+      <Link to="/profile" className={cx("content__hover")}>
+        Profile
+      </Link>
       <button onClick={handleLogout} className={cx("content__hover")}>
         Log Out
       </button>

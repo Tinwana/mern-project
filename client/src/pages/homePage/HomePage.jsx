@@ -8,16 +8,24 @@ import slider2 from "../../assets/image/slider2.webp";
 import slider3 from "../../assets/image/slider3.webp";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import { Button } from "antd";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { getAllProducts } from "../../Service/ProductService";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 const cx = classNames.bind(styles);
 const HomePage = () => {
   const arr = ["tu lanh", "ti vi", "laptop"];
-
+  const { data: products, isLoading } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: getAllProducts,
+    retry: 3,
+  });
+  const navigate = useNavigate();
   return (
     <div className={cx("wrapper")}>
       <div className={cx("product")}>
-        {arr.map((item) => {
-          return <TypeProduct name={item} key={item} />;
+        {arr.map((item, i) => {
+          return <TypeProduct name={item} key={i} />;
         })}
       </div>
       <div
@@ -39,33 +47,57 @@ const HomePage = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems:"center",
+              alignItems: "center",
+              justifyContent: "center",
               marginTop: "16px",
-              width:"100%"
+              width: "100%",
             }}
           >
-            <div className={cx("production")}>
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-              <CardComponent />
-            </div>
+            {isLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100vw",
+                  height: "100vh",
+                }}
+              >
+                <LoadingComponent size="large" />
+              </div>
+            ) : (
+              <>
+                <div className={cx("production")}>
+                  {products?.data?.products.map((product) => {
+                    return (
+                      <CardComponent
+                        onClick={() => {
+                          navigate(`product/detail/${product._id}`);
+                        }}
+                        key={product._id}
+                        name={product.name}
+                        image={product.image}
+                        type={product.type}
+                        price={product.price}
+                        discount={product.discount}
+                        sold={product.sold}
+                        countInStock={product.countInStock}
+                        ratting={product.ratting}
+                        description={product.description}
+                      />
+                    );
+                  })}
+                </div>
 
-            <Button className={cx("view-more")} style={{ fontWeight: "600" }}>
-              View more
-            </Button>
+                <Button
+                  className={cx("view-more")}
+                  style={{ fontWeight: "600" }}
+                >
+                  View more
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

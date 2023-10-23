@@ -2,8 +2,16 @@ const Product = require("../models/ProductModel");
 
 class productController {
   async createProduct(req, res) {
-    const { name, image, type, price, countInStock, ratting, description } =
-      req.body;
+    const {
+      name,
+      image,
+      type,
+      price,
+      discount,
+      countInStock,
+      ratting,
+      description,
+    } = req.body;
     try {
       const checkProduct = await Product.findOne({ name: name });
       if (
@@ -30,6 +38,7 @@ class productController {
           image,
           type,
           price,
+          discount,
           countInStock,
           ratting,
           description,
@@ -138,7 +147,7 @@ class productController {
           status: "404",
           message: "out of product in stock!",
         });
-      }else {
+      } else {
         return res.status(200).json({
           status: "OK",
           message: `select ${req.productService.stateGetProduct} products successfully`,

@@ -32,8 +32,11 @@
     align-items: flex-start;
 }
 .product-name {
+    max-height: 3.2em;
+    overflow: hidden;
+    line-height: 1.6em;
+    text-overflow: ellipsis;
     font-size: 1.1rem;
-    word-break: break-all;
     font-weight: 600;
     color: #333;
 }
@@ -64,8 +67,8 @@
 }
 .option {
     display: flex;
-    justify-content: flex-start;
-    gap: 0.4rem;
+    justify-content: space-between;
+    gap: 1rem;
     margin-top: 0.4rem;
 }
 .option__btn:hover {

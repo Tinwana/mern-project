@@ -37,13 +37,8 @@ const ProfilePage = () => {
     updateUserMutations.mutate({ name, email, phone, address, avatar, apiUrl });
   };
   const handleGetDetailUser = async (id, token) => {
-    // const { message } = await logOutUser(token);
-    // if (message == "logout successfully!") return;
     const res = await getDetailUser(id, token);
     if (res.status === "error") return;
-    if (user?.refreshToken === "") {
-      return navigate("/");
-    }
     dispatch(
       updateUser({
         ...res?.data.user,
@@ -63,6 +58,8 @@ const ProfilePage = () => {
     if (isSuccess) {
       setReadOnly(true);
       handleGetDetailUser(user.id, user.access_token);
+    } else if (user?.refreshToken === "") {
+      return navigate("/");
     }
   }, [user, isSuccess]);
   return (

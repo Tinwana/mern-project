@@ -1,9 +1,9 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import jwtDecoded from "jwt-decode";
-import { publicRoutes } from "./routes";
+import { privateRoutes, publicRoutes } from "./routes";
 import DefaultComponents from "./components/DefaultComponents/DefaultComponents";
 import isJsonString from "./utils/IsJsonString";
 import {
@@ -14,14 +14,20 @@ import {
 } from "./Service/UserService";
 import { updateUser } from "./redux/slides/userSlide";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
+import LoadingComponent from "./components/LoadingComponent/LoadingComponent";
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const isCheckAuth = user.isAdmin;
   useEffect(() => {
+    setIsLoading(true);
     const { decoded, storageData } = handleDecoded();
     if (decoded?.payload?.id) {
       handleGetDetailUser(decoded?.payload.id, storageData);
-    } else return;
+    }
+    setIsLoading(false);
   }, []);
 
   const handleDecoded = () => {
@@ -63,7 +69,6 @@ function App() {
       })
     );
   };
-
   return (
     <>
       <Router>
@@ -74,6 +79,20 @@ function App() {
               <Route
                 key={route.path}
                 path={route.path}
+                element={
+                  <Layout>
+                    <route.element />
+                  </Layout>
+                }
+              />
+            );
+          })}
+          {privateRoutes.map((route) => {
+            const Layout = route.isShowHeader ? DefaultComponents : Fragment;
+            return (
+              <Route
+                key={route.path}
+                path={isCheckAuth === true ? route.path : "/notfound"}
                 element={
                   <Layout>
                     <route.element />

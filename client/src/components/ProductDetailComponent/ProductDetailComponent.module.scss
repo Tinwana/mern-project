@@ -40,6 +40,8 @@
     }
 }
 .quantity {
+    display: flex;
+    align-items: center;
     .btn__quantity {
         margin: 16px;
         display: inline-block;
@@ -54,11 +56,11 @@
             line-height: 52px;
             padding: 0 16px 0 16px;
             color: #000;
-            &:hover{
+            &:hover {
                 background-color: #ccc;
             }
         }
-        .quantity__number{
+        .quantity__number {
             // display: inline-block;
             border: none;
             outline: none;
@@ -75,12 +77,12 @@
         }
     }
 }
-.buy{
+.buy {
     display: flex;
     gap: 1rem;
     height: 40px;
 
-    .buy-btn{
+    .buy-btn {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -92,8 +94,8 @@
         padding: 1.4rem;
         height: 100%;
     }
-    .btn-later{
-        color:#1170ff !important;
+    .btn-later {
+        color: #1170ff !important;
         border: 1px solid #1170ff;
         background-color: transparent;
         display: flex;
@@ -108,11 +110,9 @@
         height: 100%;
         cursor: pointer;
 
-        &:hover{
-        border: 1px solid #6200ff;
-        color: #6200ff;
-            
+        &:hover {
+            border: 1px solid #6200ff;
+            color: #6200ff;
         }
     }
 }
-

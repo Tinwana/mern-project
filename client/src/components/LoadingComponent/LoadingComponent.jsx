@@ -1,9 +1,7 @@
-import { Spin } from 'antd'
+import { Spin } from "antd";
 
-const LoadingComponent = ({size}) => {
-  return (
-    <Spin size={size} />
-  )
-}
+const LoadingComponent = ({ size }) => {
+  return <Spin size={size} />;
+};
 
-export default LoadingComponent
+export default LoadingComponent;
