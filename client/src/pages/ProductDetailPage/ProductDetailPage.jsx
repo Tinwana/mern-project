@@ -6,7 +6,7 @@ import ProductDetailComponent from "../../components/ProductDetailComponent/Prod
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getDetailProduct } from "../../Service/ProductService";
-import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
+import useLoadingHook from "../../hooks/useLoadingHook";
 
 const cx = classNames.bind(styles);
 
@@ -16,13 +16,10 @@ const ProductDetailPage = () => {
     queryKey: ["product", productId],
     queryFn: () => getDetailProduct(productId),
   });
+  useLoadingHook(isLoading);
   return (
     <div className={cx("wrapper")}>
-      {isLoading ? (
-        <LoadingComponent size="large" />
-      ) : (
-        <ProductDetailComponent product={product.data} />
-      )}
+      <ProductDetailComponent product={product?.data} />
     </div>
   );
 };

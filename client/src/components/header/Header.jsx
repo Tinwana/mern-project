@@ -51,6 +51,11 @@ const Header = () => {
       <button onClick={handleLogout} className={cx("content__hover")}>
         Log Out
       </button>
+      {user.isAdmin && (
+        <Link to="/system/admin" className={cx("content__hover")}>
+          System Control
+        </Link>
+      )}
     </div>
   );
 

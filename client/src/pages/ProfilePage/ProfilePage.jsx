@@ -11,9 +11,9 @@ import {
   updateUser as updateUserService,
 } from "../../Service/UserService";
 import { updateUser } from "../../redux/slides/userSlide";
-import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 import getBase64 from "../../utils/getBase64";
 import { WrapperUpload } from "./ProfileStyleComponent";
+import useLoadingHook from "../../hooks/useLoadingHook";
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +22,6 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState(user?.name);
-  const [email, setEmail] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
   const [address, setAddress] = useState(user?.address);
   const [avatar, setAvatar] = useState(user?.avatar);
@@ -34,7 +33,7 @@ const ProfilePage = () => {
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     const apiUrl = `user/update/${user.id}`;
-    updateUserMutations.mutate({ name, email, phone, address, avatar, apiUrl });
+    updateUserMutations.mutate({ name, phone, address, avatar, apiUrl });
   };
   const handleGetDetailUser = async (id, token) => {
     const res = await getDetailUser(id, token);
@@ -62,6 +61,7 @@ const ProfilePage = () => {
       return navigate("/");
     }
   }, [user, isSuccess]);
+  useLoadingHook(isLoading);
   return (
     <>
       <div className={cx("profile")}>
@@ -91,7 +91,6 @@ const ProfilePage = () => {
         <form onSubmit={handleUpdateProfile} className={cx("profile__detail")}>
           <div className={cx("detail__text")}>
             <h1>Customer Profile</h1>
-            {isLoading && <LoadingComponent size="middle" />}
           </div>
           <div className={cx("detail__info")}>
             <div className={cx("detail__info--text")}>
@@ -127,17 +126,7 @@ const ProfilePage = () => {
                 >
                   Email:{" "}
                 </span>{" "}
-                {readOnly === true ? (
-                  <span style={{ fontWeight: 600 }}>{user.email}</span>
-                ) : (
-                  <Input
-                    style={{ width: "auto" }}
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
-                )}
+                <span style={{ fontWeight: 600 }}>{user.email}</span>
               </p>
               <p className={cx("text")}>
                 <span

@@ -11,16 +11,17 @@ import { Button } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../Service/ProductService";
-import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
+import useLoadingHook from "../../hooks/useLoadingHook";
 const cx = classNames.bind(styles);
 const HomePage = () => {
+  const navigate = useNavigate();
   const arr = ["tu lanh", "ti vi", "laptop"];
   const { data: products, isLoading } = useQuery({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
     retry: 3,
   });
-  const navigate = useNavigate();
+  useLoadingHook(isLoading);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("product")}>
@@ -53,51 +54,33 @@ const HomePage = () => {
               width: "100%",
             }}
           >
-            {isLoading ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100vw",
-                  height: "100vh",
-                }}
-              >
-                <LoadingComponent size="large" />
+            <>
+              <div className={cx("production")}>
+                {products?.data?.products.map((product) => {
+                  return (
+                    <CardComponent
+                      onClick={() => {
+                        navigate(`product/detail/${product._id}`);
+                      }}
+                      key={product._id}
+                      name={product.name}
+                      image={product.image}
+                      type={product.type}
+                      price={product.price}
+                      discount={product.discount}
+                      sold={product.sold}
+                      countInStock={product.countInStock}
+                      ratting={product.ratting}
+                      description={product.description}
+                    />
+                  );
+                })}
               </div>
-            ) : (
-              <>
-                <div className={cx("production")}>
-                  {products?.data?.products.map((product) => {
-                    return (
-                      <CardComponent
-                        onClick={() => {
-                          navigate(`product/detail/${product._id}`);
-                        }}
-                        key={product._id}
-                        name={product.name}
-                        image={product.image}
-                        type={product.type}
-                        price={product.price}
-                        discount={product.discount}
-                        sold={product.sold}
-                        countInStock={product.countInStock}
-                        ratting={product.ratting}
-                        description={product.description}
-                      />
-                    );
-                  })}
-                </div>
 
-                <Button
-                  className={cx("view-more")}
-                  style={{ fontWeight: "600" }}
-                >
-                  View more
-                </Button>
-              </>
-            )}
+              <Button className={cx("view-more")} style={{ fontWeight: "600" }}>
+                View more
+              </Button>
+            </>
           </div>
         </div>
       </div>

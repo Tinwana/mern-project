@@ -9,7 +9,7 @@ import imageProductSmall from "../../assets/image/imagesmall.webp";
 const cx = classNames.bind(styles);
 
 const ProductDetailComponent = ({ product }) => {
-  const formatPrice = product.price.toLocaleString();
+  const formatPrice = product?.price.toLocaleString();
   const [quantity, setQuantity] = useState(0);
   return (
     <Row className={cx("detail__image")}>
@@ -17,7 +17,7 @@ const ProductDetailComponent = ({ product }) => {
         <Image
           src={product?.image.primary}
           alt="Image of product"
-          preview={false}
+          preview={{ src: product?.image.primary }}
         />
         <Row justify="space-between" style={{ padding: "10px" }}>
           {product?.image?.subImage?.map((img, i) => {
@@ -27,8 +27,8 @@ const ProductDetailComponent = ({ product }) => {
                   <Image
                     src={img}
                     alt="Image of product"
-                    preview={false}
                     width="100%"
+                    fallback="../../src/assets/image/blurimg.avif"
                   />
                 </div>
               </Col>
@@ -39,10 +39,10 @@ const ProductDetailComponent = ({ product }) => {
       <Col span={14}>
         <h1 className={cx("product__detail")}>{product?.name}</h1>
         <div style={{ margin: "16px 0" }}>
-          <Rate disabled value={product.ratting} />
+          <Rate disabled value={product?.ratting} />
           <span style={{ fontWeight: "400", color: "#ccc" }}>
             {" "}
-            | Sold {product.sold}
+            | Sold {product?.sold}
           </span>
         </div>
         <div className={cx("price")}>
@@ -88,7 +88,7 @@ const ProductDetailComponent = ({ product }) => {
               <MinusOutlined />
             </button>
           </div>
-          <span>{product.countInStock} in stock</span>
+          <span>{product?.countInStock} in stock</span>
         </div>
         <div className={cx("buy")}>
           <Button type="primary" danger className={cx("buy-btn")}>

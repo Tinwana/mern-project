@@ -14,12 +14,13 @@ import {
 } from "./Service/UserService";
 import { updateUser } from "./redux/slides/userSlide";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingPage from "./pages/LoadingPage/LoadingPage";
 import LoadingComponent from "./components/LoadingComponent/LoadingComponent";
+import useLoadingHook from "./hooks/useLoadingHook";
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const isLoadingState = useSelector((state) => state.loading);
   const isCheckAuth = user.isAdmin;
   useEffect(() => {
     setIsLoading(true);
@@ -71,6 +72,7 @@ function App() {
   };
   return (
     <>
+      {isLoadingState.loadingState && <LoadingComponent />}
       <Router>
         <Routes>
           {publicRoutes.map((route) => {

@@ -1,11 +1,10 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import userReducer from './slides/userSlide'
-
-
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import userReducer from "./slides/userSlide";
+import loadingReducer from "./slides/loadingSlice";
 
 export const store = configureStore({
   reducer: {
-    user: userReducer
-  }
-  
-})
+    loading: loadingReducer,
+    user: userReducer,
+  },
+});

@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./SignUpComponent.module.scss";
 import loginImg from "../../assets/image/logo-login.png";
-import axios from "axios";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { signUpUser } from "../../Service/UserService";
 import { useMutation } from "@tanstack/react-query";
-import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 import * as message from "../../components/Message/message";
+import useLoadingHook from "../../hooks/useLoadingHook";
 
 const cx = classNames.bind(styles);
 
@@ -54,6 +53,7 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
     if (data?.status === "error") message.error();
     else if (isSuccess) message.success();
   }, [signupMutation]);
+  useLoadingHook(isLoading);
   return (
     <div
       onClick={(e) => {
@@ -86,7 +86,6 @@ const SignUpComponent = ({ setShowLogin, setShowSignUp }) => {
           <div className={cx("signIn-text")}>
             <h1>Hello!</h1>
             <p>Sign up right here.</p>
-            {isLoading && <LoadingComponent size="middle" />}
           </div>
           <form onSubmit={handleSubmit} className={cx("signIn-form")}>
             <Input

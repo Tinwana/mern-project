@@ -12,6 +12,8 @@ import LoadingComponent from "../../components/LoadingComponent/LoadingComponent
 import { getDetailUser } from "../../Service/UserService";
 import { updateUser } from "../../redux/slides/userSlide";
 import * as message from "../../components/Message/message";
+import { isLoading as isLoadingState } from "../../redux/slides/loadingSlice";
+import useLoadingHook from "../../hooks/useLoadingHook";
 
 const cx = classNames.bind(styles);
 
@@ -66,6 +68,7 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
       })
     );
   };
+  useLoadingHook(isLoading);
   return (
     <div
       onClick={(e) => {
@@ -98,7 +101,6 @@ const SignInComponent = ({ setShowLogin, setShowSignUp }) => {
           <div className={cx("signIn-text")}>
             <h1>Hello!</h1>
             <p>Sign in right here.</p>
-            {isLoading && <LoadingComponent size="middle" />}
           </div>
           <form onSubmit={handleSubmit} className={cx("signIn-form")}>
             <Input

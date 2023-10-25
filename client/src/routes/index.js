@@ -20,4 +20,6 @@ export const publicRoutes = [
   { path: "/profile", element: ProfilePage, isShowHeader: true },
   { path: "*", element: NotFoundPage },
 ];
-export const privateRoutes = [{ path: "/system/admin", element: AdminPage }];
+export const privateRoutes = [
+  { path: "/system/admin", element: AdminPage, isShowHeader: true },
+];
