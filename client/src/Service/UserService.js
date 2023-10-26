@@ -1,15 +1,12 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
 export const axiosJwt = axios.create({
   baseURL: "/api/",
-  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 export const axiosBase = axios.create({
   baseURL: "/api/",
-  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },

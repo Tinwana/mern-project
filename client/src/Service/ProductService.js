@@ -96,5 +96,22 @@ const getDetailProduct = async (id) => {
     console.error(error);
   }
 };
+const deleteProduct = async (id) => {
+  try {
+    const res = await axiosBase({
+      method: "DELETE",
+      url: `product/delete/${id}`,
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-export { getAllProducts, createProduct, getDetailProduct, updateProduct };
+export {
+  getAllProducts,
+  createProduct,
+  getDetailProduct,
+  updateProduct,
+  deleteProduct,
+};

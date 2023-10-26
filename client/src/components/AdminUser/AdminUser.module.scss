@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+
+    padding: 24px;
+    flex: 1;
+    .table__wrapper {
+        margin-top: 20px;
+    }
+}
+.user__manager {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+}

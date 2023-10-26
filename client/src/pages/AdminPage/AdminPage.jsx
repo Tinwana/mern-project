@@ -14,26 +14,18 @@ import { Button, Menu } from "antd";
 import getItem from "../../utils/getItem";
 const items = [
   getItem("Home", "home", <HomeOutlined />),
-  getItem("User", "user", <UserOutlined />, [
-    getItem("Option 5", "5"),
-    getItem("Option 6", "6"),
-    getItem("Option 7", "7"),
-    getItem("Option 8", "8"),
-  ]),
-  getItem("Products", "products", <AppstoreOutlined />, [
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-  ]),
+  getItem("User", "user", <UserOutlined />),
+  getItem("Products", "products", <AppstoreOutlined />),
 ];
 import classNames from "classnames/bind";
 import styles from "./AdminPage.module.scss";
+import renderPage from "../../utils/RenderPage";
 
 const cx = classNames.bind(styles);
-const KeyComponent = ({ selectKey }) => <p>key {selectKey}</p>;
 
 const AdminPage = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectKey, setSelectKey] = useState("");
+  const [selectKey, setSelectKey] = useState("home");
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -44,7 +36,8 @@ const AdminPage = () => {
     <div className={cx("wrapper")}>
       <div
         style={{
-          width: 256,
+          width: 280,
+          display: "flex",
         }}
       >
         <Button
@@ -52,19 +45,28 @@ const AdminPage = () => {
           onClick={toggleCollapsed}
           style={{
             backgroundColor: "#000",
+            height: "100%",
+            width: 52,
+            textAlign: "center",
+            borderRadius: 0,
           }}
         >
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </Button>
         <Menu
+          style={{
+            boxShadow: "1px 1px 2px #ccc",
+            height: "100vh",
+          }}
           mode="inline"
           theme="dark"
           inlineCollapsed={collapsed}
           items={items}
           onClick={handleClickItem}
+          defaultSelectedKeys={["home"]}
         />
       </div>
-      <KeyComponent selectKey={selectKey} />
+      {renderPage(selectKey)}
     </div>
   );
 };
